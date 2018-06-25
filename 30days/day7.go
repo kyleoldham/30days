@@ -3,29 +3,19 @@ package main
 import "fmt"
 
 func main() {
-	var num int
-	fmt.Scanf("%d", &num)
+	var array_length int
+	fmt.Scanf("%d", &array_length)
 
-	var words []string
-	var test_word string
+	// Create array
+	var array = make([]int, array_length)
 
-	// Allowing for input of new words, and adding them to the string
-	for i := 0; i < num; i++ {
-		fmt.Scanf("%s", &test_word)
-		words = append(words, test_word)
+	// Take in array input
+	for i := 0; i < array_length; i++ {
+		fmt.Scanf("%d", &array[i])
 	}
 
-	// even and odd strings, append the proper characters to the split strings
-	for i := range words {
-		var even string
-		var odd string
-		for k := range words[i] {
-			if k%2 != 0 {
-				odd = odd + string(words[i][k])
-			} else {
-				even = even + string(words[i][k])
-			}
-		}
-		fmt.Printf("%s %s\n", even, odd)
+	// Swippity swap
+	for i := 1; i <= len(array); i++ {
+		fmt.Printf("%d ", array[array_length-i])
 	}
 }

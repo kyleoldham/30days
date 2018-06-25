@@ -1,42 +1,50 @@
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"io"
-	"os"
-	"strconv"
-	"strings"
-)
+import "fmt"
+
+type person struct {
+	age int
+}
+
+func (p person) NewPerson(initialAge int) person {
+	if p.age < 0 {
+		fmt.Println("Age is not valid, setting age to 0.")
+	}
+	return p
+}
+
+func (p person) amIOld() {
+	if p.age < 13 {
+		fmt.Println("You are young.")
+	}
+	if p.age >= 13 && p.age < 18 {
+		fmt.Println("You are a teenager.")
+	}
+	if p.age >= 18 {
+		fmt.Println("You are old.")
+	}
+}
+
+func (p person) yearPasses() person {
+	//Increment the age of the person in here
+	p.age++
+	return p
+}
 
 func main() {
-	reader := bufio.NewReaderSize(os.Stdin, 1024*1024)
+	var T, age int
 
-	NTemp, err := strconv.ParseInt(readLine(reader), 10, 64)
-	checkError(err)
-	N := int32(NTemp)
+	fmt.Scan(&T)
 
-	if (N%2 == 1) || (N >= 6) && (N <= 20) && (N%2 == 0) {
-		fmt.Println("Weird")
-		return
-	}
-	if (N%2 == 0) && (N > 20) || (N >= 2) && (N <= 5) && (N%2 == 0) {
-		fmt.Println("Not Weird")
-	}
-
-}
-
-func readLine(reader *bufio.Reader) string {
-	str, _, err := reader.ReadLine()
-	if err == io.EOF {
-		return ""
-	}
-
-	return strings.TrimRight(string(str), "\r\n")
-}
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
+	for i := 0; i < T; i++ {
+		fmt.Scan(&age)
+		p := person{age: age}
+		p = p.NewPerson(age)
+		p.amIOld()
+		for j := 0; j < 3; j++ {
+			p = p.yearPasses()
+		}
+		p.amIOld()
+		fmt.Println()
 	}
 }

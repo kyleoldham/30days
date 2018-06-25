@@ -3,36 +3,52 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
+	"strings"
 )
 
+// Complete the solve function below.
+func solve(meal_cost float64, tip_percent int32, tax_percent int32) {
+	// fmt.println("The total meal cost is " + ((meal_cost * float64(tip_percent/100)) + (meal_cost * float64(tax_percent/100))) - rofl
+	// need to all be floats, and float types need to match
+	tip := meal_cost * float64(tip_percent) / 100
+	tax := meal_cost * float64(tax_percent) / 100
+	// add in a grouped var
+	add := meal_cost + tip + tax
+	// need .0 to reduce extra 0's, and use %f for float type
+	fmt.Printf("The total meal cost is %.0f dollars.", add)
+}
+
 func main() {
-	var _ = strconv.Itoa // Ignore this comment. You can still use the package "strconv".
+	reader := bufio.NewReaderSize(os.Stdin, 1024*1024)
 
-	var i uint64 = 4
-	var d float64 = 4.0
-	var s string = "HackerRank "
+	meal_cost, err := strconv.ParseFloat(readLine(reader), 64)
+	checkError(err)
 
-	scanner := bufio.NewScanner(os.Stdin)
+	tip_percentTemp, err := strconv.ParseInt(readLine(reader), 10, 64)
+	checkError(err)
+	tip_percent := int32(tip_percentTemp)
 
-	var a uint64
-	var b float64
-	var c string
+	tax_percentTemp, err := strconv.ParseInt(readLine(reader), 10, 64)
+	checkError(err)
+	tax_percent := int32(tax_percentTemp)
 
-	// Read Input
-	var wild []string
-	for scanner.Scan() {
-		wild = append(wild, scanner.Text())
+	solve(meal_cost, tip_percent, tax_percent)
+}
+
+func readLine(reader *bufio.Reader) string {
+	str, _, err := reader.ReadLine()
+	if err == io.EOF {
+		return ""
 	}
 
-	// Digest Input
-	a, _ = strconv.ParseUint(wild[0], 10, 8)
-	b, _ = strconv.ParseFloat(wild[1], 1)
-	c = wild[2]
+	return strings.TrimRight(string(str), "\r\n")
+}
 
-	//Outputs
-	fmt.Println(i + a)
-	fmt.Printf("%.1f\n", d+b)
-	fmt.Println(s + c)
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
