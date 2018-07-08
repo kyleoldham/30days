@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // My implementation of Heap's algorithm
-func permutations(arr []int) [][]int {
+func permute(arr []int) [][]int {
 	var findPermutations func([]int, int)
 	res := [][]int{}
 
